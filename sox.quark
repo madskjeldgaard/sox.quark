@@ -1,0 +1,11 @@
+(
+  name: "sox",
+  summary: "A simple interface for SoX",
+  version: "0.001",
+  schelp: "Sox.schelp",
+  dependencies: nil,
+  license: "GNU GPL v3.0",
+  copyright: "madskjeldgaard",
+  ext_dependency: nil,
+  url: "https://github.com/madskjeldgaard/sox.quark"
+)
