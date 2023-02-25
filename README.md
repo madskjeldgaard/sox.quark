@@ -13,7 +13,7 @@ Open up SuperCollider and evaluate the following line of code:
 
 All commands are class methods of `Sox` and they have sensible defaults, if you do not input parameter values
 
-```
+```supercollider
 // Normalize
 Sox.normalize("/Users/mads/tapedegrad1.wav", "/Users/mads/tapedegrad1_normalized.wav", (-0.1))
 
@@ -22,4 +22,20 @@ Sox.splitBySilence("/Users/mads/reallylongfile.wav", "/Users/mads/partOfReallyLo
 
 // Run arbitrary sox command
 Sox.run("inFile.wav", "outFile.wav", "gain", "-3", "pad", "0", "3", "reverb");
+```
+
+An example of batch-processing a folder of files:
+
+```supercollider
+(
+var folder = "~/tmp/sounds";
+var folderPath = PathName(folder);
+
+folderPath.filesDo{|file|
+    var inFile = file;
+    var outFile = inFile.pathOnly +/+ PathName(inFile.fileNameWithoutExtension ++ "_normalized" ++ "." ++ inFile.extension);
+    Sox.normalize(inFile.fullPath, outFile.fullPath);
+};
+
+)
 ```
