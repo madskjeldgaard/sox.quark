@@ -7,10 +7,34 @@ Sox {
         ^if(this.isInstalled, {
             "Running the following sox command: ".postln;
             cmd.postln;
-            // cmd.unixCmdGetStdOut;
+            cmd.unixCmdGetStdOut;
         }, {
             "Sox is not installed".error;
         })
+    }
+
+    *normalize{|infile, outfile, level=(-0.1)|
+        ^this.run(infile, outfile, "norm", level.asFloat)
+    }
+
+    *channels{|infile, outfile, channels=1|
+        ^this.run(infile, outfile, "channels", channels.asInteger)
+    }
+
+    *rate{|infile, outfile, rate=48|
+        ^this.run(infile, outfile, "rate", rate.asFloat.asString ++ "k")
+    }
+
+    *bits{|infile, outfile, bits=16|
+        ^this.run(infile, outfile, "-b", bits.asInteger)
+    }
+
+    *reverse{|infile, outfile|
+        ^this.run(infile, outfile, "reverse")
+    }
+
+    *trim{|infile, outfile, start="0:0", end="10:0"|
+        ^this.run(infile, outfile, "trim", start, end)
     }
 
     *trimSilenceFromBeginning{|infile, outfile, aboveperiods=1, duration=0.1, threshold=1|
