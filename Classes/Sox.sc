@@ -1,13 +1,29 @@
 Sox {
+    classvar <> dryRun=false;
 
     // Runs a sox command with all arguments in the list
     *run{|...argumentList|
-        var cmd = "sox %".format(argumentList.join(" "));
+        var cmd = "sox %".format(
+            argumentList
+            .collect({|argItem, argNum|
+                if(argNum == 0 or: {argNum == 1}, {
+                    // Standardize the file paths
+                    argItem.standardizePath
+                }, {
+                    argItem
+                })
+            })
+            .join(" ")
+        );
 
         ^if(this.isInstalled, {
             "Running the following sox command: ".postln;
             cmd.postln;
-            cmd.unixCmdGetStdOut;
+
+            if(dryRun.not, {
+                cmd.unixCmdGetStdOut;
+            })
+
         }, {
             "Sox is not installed".error;
         })
